@@ -6,10 +6,9 @@ import colors
 class Database():
     def __init__(self):
         #initialize the functions
-
-        # Checking the existence of the database 
         self.check_db()
         self.build_db()
+        self.checking_mat()
     def build_db(self):    
         self.connect = sqlite3.connect('School.db')
         self.cursor = self.connect.cursor()
@@ -30,16 +29,6 @@ class Database():
             score integer
         )
         """)
-
-        #Create Third Table for mat
-        mat = []
-        pick = str(input([]))
-        self.cursor.execute(f""" CREATE TABLE IF NOT EXISTS point(
-                {pick}    
-                )
-                """)
-
-
     #searching on database methods
     def check_db(self):
         self.path = []
@@ -61,7 +50,48 @@ class Database():
             \n----------------------------------------------
             """,colors.colors().end)
             return False
-        
-        # later should add backup functionillty ##################
 
-Database()
+
+#Create Third Table for mat
+class materials(Database):
+    def checking_mat(self):
+        self.cursor.execute('SELECT * FROM mat')
+        fet = self.cursor.fetchall()
+        ######## try to checking if the table is exist then drop the input mat
+        # self.insert_mat()
+        pass
+    def insert_mat(self):
+        print('Would you like to add Materials ?')
+        user_dec = str(input('yes/no:\n'))
+        if user_dec == 'yes':
+            print(colors.colors().pink,
+            '\nYou can add ONLY 9 Subjects into Database',colors.colors().end)
+            self.sub1 = str(input('1st subject: '))
+            self.sub2 = str(input('2nd subject: '))
+            self.sub3 = str(input('3rd subject: '))
+            self.sub4 = str(input('4th subject: '))
+            self.sub5 = str(input('5th subject: '))
+            self.sub6 = str(input('6th subject: '))
+            self.sub7 = str(input('7th subject: '))
+            self.sub8 = str(input('8th subject: '))
+            self.sub9 = str(input('9th subject: '))
+
+            self.cursor.execute(f""" CREATE TABLE IF NOT EXISTS mat(
+                {self.sub1} text,
+                {self.sub2} text,
+                {self.sub3} text,
+                {self.sub4} text,
+                {self.sub5} text,
+                {self.sub6} text,
+                {self.sub7} text,
+                {self.sub8} text,
+                {self.sub9} text
+                    )
+                    """)
+        elif user_dec == 'no':
+            pass
+        else:
+            print('Wrong input')
+            self.insert_mat()
+        
+materials()
