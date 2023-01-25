@@ -1,4 +1,4 @@
-import build
+import build as db
 import shutil
 from datetime import datetime
 
@@ -13,7 +13,7 @@ class Backup():
         self.snap()
     def snap(self):
         self.current_time = f"{dates} " + f"{times}" 
-        self.show = build.Database
+        self.show = db.Database
         self.result = self.show.check_db(self)
         if self.result == True:
             print('backing up database.....')

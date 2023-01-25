@@ -9,7 +9,6 @@ class Database():
 
         # Checking the existence of the database 
         self.check_db()
-
         self.build_db()
     def build_db(self):    
         self.connect = sqlite3.connect('School.db')
@@ -18,19 +17,28 @@ class Database():
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS student(
             name text,
             address text,
-            age,
-            gender,
-            time,
-            date
+            age integer,
+            gender text,
+            time blob,
+            date blob
         )
         """)
-        # Create second Table
-        self.cursor.execute(""" CREATE TABLE IF NOT EXISTS status(
-            materials,
-            class,
-            score
+
+        # Create second Table for score and class
+        self.cursor.execute(""" CREATE TABLE IF NOT EXISTS point(
+            class text,
+            score integer
         )
         """)
+
+        #Create Third Table for mat
+        mat = []
+        pick = str(input([]))
+        self.cursor.execute(f""" CREATE TABLE IF NOT EXISTS point(
+                {pick}    
+                )
+                """)
+
 
     #searching on database methods
     def check_db(self):
@@ -48,8 +56,12 @@ class Database():
             print(colors.colors().red,"""   
             Database Not exist ??
             \nWarning if the database not exist it will:
+            \nCreating new one However please check the backup folder
+            \nIf you intend to restore the Database backup.
             \n----------------------------------------------
             """,colors.colors().end)
             return False
         
         # later should add backup functionillty ##################
+
+Database()
