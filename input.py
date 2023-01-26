@@ -1,15 +1,14 @@
 from build import Database
 from datetime import datetime
 
-#Time section
-
-# In this section you will have options to Insert students info
-
-
+# class inhert from database build
 class Students(Database):
     def __init__(self):
+        # use inhert from build
         self.exe = self.build_db()
+        # initializing
         self.student_info()
+        self.query()
     def student_info(self):
         self.exe = self.cursor
         self.com = self.connect
@@ -31,10 +30,13 @@ class Students(Database):
         (self.addr),
         (self.gender),
         (self.dates),
-        (self.times)    
+        (self.times)
         ))
+        # commit into database
         self.com.commit()
-        self.exe.execute('SELECT * FROM student')
+        
+    def query(self):
+        self.exe.execute(f'SELECT rowid, * FROM student')
         fet = self.exe.fetchall()
         for x in fet:
             print(x)

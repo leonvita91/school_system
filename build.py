@@ -1,9 +1,10 @@
 import sqlite3
+import backup_plan
 import os
 import colors
 
 # build database
-class Database:
+class Database():
     def __init__(self):
         #initialize the functions
         self.check_exist_db()
@@ -14,7 +15,7 @@ class Database:
         self.cursor = self.connect.cursor()
         #Create first table
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS student(
-            id integer,
+            id integer NOT NULL PRIMARY KEY,
             name text,
             address text,
             age integer,
@@ -22,8 +23,7 @@ class Database:
             time blob,
             date blob
         )
-        """)
-        
+        """)        
         # Create second Table for score and class
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS point(
             class text,
@@ -52,9 +52,7 @@ class Database:
             \n----------------------------------------------
             """,colors.colors().end)
             return False
-
-
-#Create Third Table for mat
+#Create 3th Table
 class materials(Database):
     def checking_mat(self):
         try:
@@ -65,8 +63,6 @@ class materials(Database):
             colors.colors().end)
             self.insert_mat()
         ######## try to checking if the table is exist then drop the input mat
-        # self.insert_mat()
-        pass
     def insert_mat(self):
         print('Would You Like To Add The New Materials?')
         user_dec = str(input('yes/no:\n'))
@@ -100,6 +96,7 @@ class materials(Database):
         else:
             print('Wrong input')
             self.insert_mat()
+
 
         
 # Note to insert new column into exist table 
