@@ -6,7 +6,7 @@ import colors
 class Database():
     def __init__(self):
         #initialize the functions
-        self.check_db()
+        self.check_exist_db()
         self.build_db()
         self.checking_mat()
     def build_db(self):    
@@ -29,8 +29,8 @@ class Database():
             score integer
         )
         """)
-    #searching on database methods
-    def check_db(self):
+    #searching on Database if exist
+    def check_exist_db(self):
         self.path = []
         self.read = os.listdir('.')
         # looping around the current dir
@@ -45,7 +45,7 @@ class Database():
             print(colors.colors().red,"""   
             Database Not exist ??
             \nWarning if the database not exist it will:
-            \nCreating new one However please check the backup folder
+            \nCreating A new one Automaticlly However please check the backup folder
             \nIf you intend to restore the Database backup.
             \n----------------------------------------------
             """,colors.colors().end)
@@ -55,8 +55,11 @@ class Database():
 #Create Third Table for mat
 class materials(Database):
     def checking_mat(self):
-        self.cursor.execute('SELECT * FROM mat')
-        fet = self.cursor.fetchall()
+        try:
+            self.cursor.execute('SELECT * FROM mat')
+        except:
+            print('Nothing in Materials Table')
+            self.insert_mat()
         ######## try to checking if the table is exist then drop the input mat
         # self.insert_mat()
         pass
