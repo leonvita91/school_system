@@ -9,27 +9,34 @@ class Database():
         #initialize the functions
         self.check_exist_db()
         self.build_db()
-        self.checking_mat()
     def build_db(self):    
         self.connect = sqlite3.connect('School.db')
         self.cursor = self.connect.cursor()
         #Create first table
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS student(
-            id integer NOT NULL PRIMARY KEY,
+            student_id integer PRIMARY KEY AUTOINCREMENT,
             name text,
+            age integer char(2),
             address text,
-            age integer,
+            class text,
             gender text,
             time blob,
             date blob
         )
-        """)        
-        # Create second Table for score and class
+        """)
+        # Create second Table
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS point(
-            class text,
+            score_id integer PRIMARY KEY AUTOINCREMENT,
             score integer
         )
         """)
+        #Create 3th Table
+        self.cursor.execute(f""" CREATE TABLE IF NOT EXISTS mat(
+            subject_id integer PRIMARY KEY AUTOINCREMENT,
+            subjects text
+                )
+                """)
+    
     #searching on Database if exist
     def check_exist_db(self):
         self.path = []
@@ -52,52 +59,9 @@ class Database():
             \n----------------------------------------------
             """,colors.colors().end)
             return False
-#Create 3th Table
-class materials(Database):
-    def checking_mat(self):
-        try:
-            self.cursor.execute('SELECT * FROM mat')
-        except:
-            print(colors.colors().blue,
-            'Nothing Still in Materials Table',
-            colors.colors().end)
-            self.insert_mat()
-        ######## try to checking if the table is exist then drop the input mat
-    def insert_mat(self):
-        print('Would You Like To Add The New Materials?')
-        user_dec = str(input('yes/no:\n'))
-        if user_dec == 'yes' or 'y':
-            print(colors.colors().pink,
-            '\nYou Can ONLY ADD 9 Subjects Into Database',colors.colors().end)
-            self.sub1 = str(input('1st subject: '))
-            self.sub2 = str(input('2nd subject: '))
-            self.sub3 = str(input('3rd subject: '))
-            self.sub4 = str(input('4th subject: '))
-            self.sub5 = str(input('5th subject: '))
-            self.sub6 = str(input('6th subject: '))
-            self.sub7 = str(input('7th subject: '))
-            self.sub8 = str(input('8th subject: '))
-            self.sub9 = str(input('9th subject: '))
 
-            self.cursor.execute(f""" CREATE TABLE IF NOT EXISTS mat(
-                {self.sub1} interger,
-                {self.sub2} interger,
-                {self.sub3} interger,
-                {self.sub4} interger,
-                {self.sub5} interger,
-                {self.sub6} interger,
-                {self.sub7} interger,
-                {self.sub8} interger,
-                {self.sub9} interger
-                    )
-                    """)
-        elif user_dec == 'no' or 'n':
-            pass
-        else:
-            print('Wrong input')
-            self.insert_mat()
-
-
+if __name__ == '__main__':
+    Database()
         
 # Note to insert new column into exist table 
 # self.cursor.execute("""ALTER TABLE student ADD COLUMN ID interger """)
