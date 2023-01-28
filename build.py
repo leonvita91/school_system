@@ -17,7 +17,7 @@ class Database():
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS student(
             student_id integer PRIMARY KEY AUTOINCREMENT,
             name text,
-            age integer char(2),
+            age integer,
             address text,
             class text,
             gender text,
@@ -60,25 +60,32 @@ class Database():
             \n----------------------------------------------
             """,colors.colors().end)
             return False
-        # Insert Subjects Into db
-    
+
+    # Insert Subjects Into db
     def add_sub(self):
         print('Add Subject ?')
-        user_dec = str(input('yes/no:\n'))
-        if user_dec == 'yes' or 'y':
+        user_dec = str(input('y / n: '))
+        if user_dec == 'y':
             self.sub_in = str(input('Subject Name: '))
-            self.cursor.execute("INSERT INTO mat(subjects) VALUES (?)",
-            (
-            (self.sub_in)
-            ))
+            self.cursor.execute("SELECT subjects FROM mat")
+            fet_check = self.cursor.fetchall()
+            for chk in fet_check:
+                convert = "".join(chk)
+                if convert == self.sub_in:
+                    print('Subject Name Exist')
+                    break
+                elif convert != self.sub_in:
+                    self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
+                    ((self.sub_in),))
+                    self.connect.commit()
             print("Would you like to add another Subject ? ")
             # ask user again
-            self.try_again = str(input('yes/no: '))
-            if self.try_again == 'y' or 'yes':
-                self.add_sub()
-            elif self.try_again == 'n' or 'no':
-                pass
-        elif user_dec == 'no' or 'n':
+            self.add_sub()
+        elif user_dec == 'n':
+            self.cursor.execute('select * from mat')
+            fet = self.cursor.fetchall()
+            for f in fet:
+                print(f)
             pass
 
 if __name__ == '__main__':
