@@ -65,7 +65,8 @@ class Database():
     def add_sub(self):
         print('Add Subject ?')
         user_dec = str(input('y / n: '))
-        if user_dec == 'y':
+        ######## this code skip the loop ??? need to be fix
+        if user_dec == 'yes':
             self.sub_in = str(input('Subject Name: '))
             self.cursor.execute("SELECT subjects FROM mat")
             fet_check = self.cursor.fetchall()
@@ -78,9 +79,9 @@ class Database():
                     self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
                     ((self.sub_in),))
                     self.connect.commit()
-            print("Would you like to add another Subject ? ")
-            # ask user again
-            self.add_sub()
+                    # print("Would you like to add another Subject ? ")
+                    # # ask user again
+                    # self.add_sub()
         elif user_dec == 'n':
             self.cursor.execute('select * from mat')
             fet = self.cursor.fetchall()
