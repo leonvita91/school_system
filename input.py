@@ -50,3 +50,4 @@ class Students(Database):
         fet = self.exe.fetchall()
         for x in fet:
             print(x)
+Students()

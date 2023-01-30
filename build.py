@@ -58,9 +58,9 @@ class Database():
 
     # Insert Subjects Into db
     def add_check_sub(self):
-        print('Add Subject ?')
-        user_dec = str(input('yes / no: '))
-        if user_dec == 'yes':
+        print('Would you like to Add a Subject? ')
+        user_dec = int(input('.> 1 yes:\n.> 2 no:\nAnswer: '))
+        if user_dec == 1:
             self.sub_in = str(input('Subject Name: '))
             self.cursor.execute("SELECT subjects FROM mat")
             fet_check = self.cursor.fetchall()
@@ -69,7 +69,15 @@ class Database():
                 self.convert = ''.join(chk)
                 self.new_list.append(self.convert)
             if self.sub_in in self.new_list:
-                print(f'Subject {self.sub_in} Exsit')
+                print(f'Subject {self.sub_in} is Already exsit !!')
+                print("would you like to fetch the existin Subjects?\n>.1 yes\n>.2 no")
+                user_check = int(input())
+                if user_check == 1:
+                    for x in fet_check:
+                        print(x)
+                elif user_check == 2:
+                    pass
+
             elif self.sub_in not in self.new_list:
                 self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
                 ((self.sub_in),))
@@ -77,11 +85,10 @@ class Database():
                 print('new subject added')
             else:
                 print('Wrong Input.')
-        elif user_dec == 'no':
+        elif user_dec == 2:
             pass
 
 if __name__ == '__main__':
     Database()
-        
 # Note to insert new column into exist table 
 # self.cursor.execute("""ALTER TABLE student ADD COLUMN ID interger """)
