@@ -36,13 +36,14 @@ class Students(Database):
         (self.dates),
         (self.times)
         ))
+        self.com.commit()
         # Insert Subjects into db
     def sub(self):
         pass
 
     
     # commit into database
-    self.com.commit()
+        self.com.commit()
         
     def query(self):
         self.exe.execute(f'SELECT * FROM student')

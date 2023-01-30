@@ -9,7 +9,7 @@ class Database():
         #initialize the functions
         self.check_exist_db()
         self.build_db()
-        self.add_sub()
+        self.add_check_sub()
     def build_db(self):    
         self.connect = sqlite3.connect('School.db')
         self.cursor = self.connect.cursor()
@@ -62,27 +62,32 @@ class Database():
             return False
 
     # Insert Subjects Into db
-    def add_sub(self):
+    def add_check_sub(self):
         print('Add Subject ?')
-        user_dec = str(input('y / n: '))
-        ######## this code skip the loop ??? need to be fix
+        user_dec = str(input('yes / no: '))
         if user_dec == 'yes':
             self.sub_in = str(input('Subject Name: '))
             self.cursor.execute("SELECT subjects FROM mat")
             fet_check = self.cursor.fetchall()
             for chk in fet_check:
-                convert = "".join(chk)
-                if convert == self.sub_in:
-                    print('Subject Name Exist')
-                    break
-                elif convert != self.sub_in:
+                self.convert = ''.join(chk)
+                self.new_list = []
+                self.new_list.append(self.convert)
+            try: 
+                if self.sub_in in self.new_list:
+                    print(f'Subject {self.sub_in} Exsit')
+                elif self.sub_in not in self.new_list:
                     self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
                     ((self.sub_in),))
                     self.connect.commit()
-                    # print("Would you like to add another Subject ? ")
-                    # # ask user again
-                    # self.add_sub()
-        elif user_dec == 'n':
+                    print('new subject added')
+            except:
+                # excpection if the list is empty
+                print('First entery is success...')
+                self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
+                ((self.sub_in),))
+                self.connect.commit()
+        elif user_dec == 'no':
             self.cursor.execute('select * from mat')
             fet = self.cursor.fetchall()
             for f in fet:
