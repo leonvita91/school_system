@@ -6,11 +6,11 @@ import colors
 # build database
 class Database():
     def __init__(self):
-        #initialize the functions
+        #initialize methods
         self.check_exist_db()
         self.build_db()
         self.add_check_sub()
-    def build_db(self):    
+    def build_db(self):
         self.connect = sqlite3.connect('School.db')
         self.cursor = self.connect.cursor()
         #Create first table
@@ -22,22 +22,18 @@ class Database():
             class text,
             gender text,
             time blob,
-            date blob
-        )
-        """)
+            date blob ) 
+            """)
         # Create second Table
         self.cursor.execute(""" CREATE TABLE IF NOT EXISTS point(
             score_id integer PRIMARY KEY AUTOINCREMENT,
-            score integer
-        )
-        """)
+            score integer ) 
+            """)
         #Create 3th Table
         self.cursor.execute(f"""CREATE TABLE IF NOT EXISTS mat(
             subject_id integer PRIMARY KEY AUTOINCREMENT,
-            subjects text
-        )
-        """)
-    
+            subjects text ) 
+            """)
     #searching on Database if exist
     def check_exist_db(self):
         self.path = []
@@ -59,7 +55,6 @@ class Database():
             \nIf you intend to restore the Database backup.
             \n----------------------------------------------
             """,colors.colors().end)
-            return False
 
     # Insert Subjects Into db
     def add_check_sub(self):
@@ -69,29 +64,20 @@ class Database():
             self.sub_in = str(input('Subject Name: '))
             self.cursor.execute("SELECT subjects FROM mat")
             fet_check = self.cursor.fetchall()
+            self.new_list = []
             for chk in fet_check:
                 self.convert = ''.join(chk)
-                self.new_list = []
                 self.new_list.append(self.convert)
-            try: 
-                if self.sub_in in self.new_list:
-                    print(f'Subject {self.sub_in} Exsit')
-                elif self.sub_in not in self.new_list:
-                    self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
-                    ((self.sub_in),))
-                    self.connect.commit()
-                    print('new subject added')
-            except:
-                # excpection if the list is empty
-                print('First entery is success...')
+            if self.sub_in in self.new_list:
+                print(f'Subject {self.sub_in} Exsit')
+            elif self.sub_in not in self.new_list:
                 self.cursor.execute("INSERT INTO mat(subjects) VALUES (?) ",
                 ((self.sub_in),))
                 self.connect.commit()
+                print('new subject added')
+            else:
+                print('Wrong Input.')
         elif user_dec == 'no':
-            self.cursor.execute('select * from mat')
-            fet = self.cursor.fetchall()
-            for f in fet:
-                print(f)
             pass
 
 if __name__ == '__main__':
