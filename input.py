@@ -9,11 +9,12 @@ class Students(Database):
         self.exe = self.build_db()
         # initializing the methods
         self.student_info()
-        self.query()
+        self.student_check()
     def student_info(self):
         #define objects
         self.exe = self.cursor
         self.com = self.connect
+        self.fetch = self.exe.fetchall()
         #define time&date objects
         now = datetime.now()
         self.dates = now.strftime("%d-%m-%Y")
@@ -36,18 +37,15 @@ class Students(Database):
         (self.dates),
         (self.times)
         ))
-        self.com.commit()
-        # Insert Subjects into db
-    def sub(self):
-        pass
-
-    
-    # commit into database
-        self.com.commit()
+    def student_check(self):
+        self.exe.execute("SELECT name FROM student")
+        for e in fetch:
+            print(e)
+        # self.com.commit()
         
     def query(self):
         self.exe.execute(f'SELECT * FROM student')
-        fet = self.exe.fetchall()
-        for x in fet:
+        self.fetch
+        for x in self.fetch:
             print(x)
 Students()
